@@ -1,0 +1,24 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+.gradient-custom {
+    background: #195d78;
+    
+    background: -webkit-linear-gradient(to right, rgb(19, 106, 159), rgba(37, 117, 252, 1));
+  
+    background: linear-gradient(to right, rgb(12, 78, 104), rgba(37, 117, 252, 1))
+    }
+
+    label{
+        font-size: large;
+        font-weight: 600;
+    }
+    .link {
+        color: rgb(89, 150, 177);
+        font-weight: 600;
+        font-size: large;
+      }
+      .link:hover {
+         color: rgba(42, 94, 131, 0.82)
+      }
