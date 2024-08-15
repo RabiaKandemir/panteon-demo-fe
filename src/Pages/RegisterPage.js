@@ -1,12 +1,11 @@
 import React from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
+import { register } from '../Services/UserService';
 const RegisterPage = () => {
     const navigate = useNavigate();
 
@@ -28,7 +27,7 @@ const RegisterPage = () => {
     });
     const handleRegister = async (values, { setSubmitting, setErrors }) => {
         try {
-            const response = await axios.post(`https://localhost:7295/api/User/register`, values);
+            const response = await register(values);
             if (response.status === 200) {
                 navigate('/login');
             } else {
@@ -37,15 +36,22 @@ const RegisterPage = () => {
         } catch (err) {
             if (err.response && err.response.data) {
                 const errorMessage = err.response.data;
-                const fieldErrors = {};
-                const errorLines = errorMessage.split('\n').filter(line => line.startsWith(' -- '));
-                errorLines.forEach(line => {
-                    const [field, message] = line.replace(' -- ', '').split(': ');
-                    const fieldName = field.toLowerCase(); 
-                    fieldErrors[fieldName] = message;
-                });
-    
-                setErrors(fieldErrors);
+                const businessExceptionMatch = errorMessage.match(/Username already exists|Email already exists/);
+                
+                if (businessExceptionMatch) {
+                    setErrors({ submit: businessExceptionMatch[0] });
+                } else {
+                    const fieldErrors = {};
+                    const errorLines = errorMessage.split('\n').filter(line => line.startsWith(' -- '));
+                    errorLines.forEach(line => {
+                        const [field, message] = line.replace(' -- ', '').split(': ');
+                        const cleanedMessage = message.replace(/Severity.*/, '').trim();
+                        const fieldName = field.toLowerCase();
+                        fieldErrors[fieldName] = cleanedMessage;
+                    });
+        
+                    setErrors(fieldErrors);
+                }
             } else {
                 setErrors({ submit: 'Registration failed. Please try again.' });
             }

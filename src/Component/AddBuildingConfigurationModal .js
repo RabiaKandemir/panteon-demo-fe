@@ -34,7 +34,7 @@ const AddBuildingConfigurationModal = ({ onClose, onSave, existingBuildingTypes 
     const handleSubmit = (values) => {
         onSave(values);
     };
-
+    
     return (
         <div className="modal show" style={{ display: 'block' }}>
             <div className="modal-dialog">

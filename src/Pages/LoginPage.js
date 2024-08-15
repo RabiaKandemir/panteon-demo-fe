@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import "../css/login.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faGoogle } from '@fortawesome/free-brands-svg-icons';
-
+import { login } from '../Services/UserService';
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(`https://localhost:7295/api/User/login?username=${username}&password=${password}`);
-    
+            const response = await login(username, password);
+
             if (response.status === 200) {
                 localStorage.setItem('user', JSON.stringify(response.data));
                 navigate("/config");
