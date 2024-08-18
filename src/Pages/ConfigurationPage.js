@@ -85,8 +85,8 @@ const BuildingConfigurationPage = () => {
                             <td>{configuration.buildingCost}</td>
                             <td>{configuration.constructionTime}</td>
                             <td>
-                                <button className="btn btn-warning" onClick={() => handleEdit(configuration)}>Edit</button>
-                                <button className="btn btn-danger mx-3" onClick={() => handleDelete(configuration.id)}>Delete</button>
+                                <button className="btn btn-warning" >Edit</button>
+                                <button className="btn btn-danger mx-3">Delete</button>
                             </td>
                         </tr>
                     ))}
